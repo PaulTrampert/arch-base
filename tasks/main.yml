@@ -1,0 +1,41 @@
+---
+
+- name: Pull Mirrorlist
+  get_url:
+    url: "https://www.archlinux.org/mirrorlist/?country=US&protocol=https&ip_version=4&use_mirror_status=on"
+    dest: "/etc/pacman.d/mirrorlist"
+    force: yes
+
+- name: Uncomment Mirrors
+  replace:
+    path: /etc/pacman.d/mirrorlist
+    regexp: "^#Server"
+    replace: "Server"
+
+- name: Install reflector
+  pacman:
+    name: reflector
+    state: latest
+    update_cache: yes
+
+- name: Sort mirrors
+  shell: "reflector --country 'United States' --latest 50 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
+
+- name: Ensure packages updated
+  pacman:
+    state: latest
+    update_cache: yes
+    upgrade: yes
+
+- name: Create groups
+  group:
+    name: "{{ item }}"
+  loop: "{{ machine_groups }}"
+
+- name: Create users
+  user:
+    name: "{{ item.name }}"
+    groups: "{{ item.groups | default([]) }}"
+    password: "{{ item.password | default('') | password_hash('sha512', item.salt | default ('')) }}"
+    shell: "{{ '/bin/bash' if item.password is defined else '/usr/sbin/nologin' }}"
+  loop: "{{ machine_users }}"
