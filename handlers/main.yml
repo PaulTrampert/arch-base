@@ -1,3 +1,11 @@
 ---
+- name: Check Reboot Required
+  loop: "{{packages_require_reboot}}"
+  changed_when: item in updated_packages.packages
+  notify: Reboot
+  debug:
+
+
 - name: Reboot
+  when: "ansible_connection != 'local'"
   reboot:
