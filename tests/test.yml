@@ -1,5 +1,13 @@
 ---
 - hosts: all
   become: yes
+  vars:
+    machine_users:
+        - name: paul
+          password: asdfasdf
+          groups: ['wheel', 'users']
+    machine_groups:
+        - users
+        - others
   roles:
     - arch-base

@@ -29,6 +29,11 @@
     update_cache: yes
     upgrade: yes
 
+- name: Ensure %wheel in sudoers
+  lineinfile:
+    path: /etc/sudoers
+    line: "%wheel ALL=(ALL) ALL"
+
 - name: Create groups
   group:
     name: "{{ item }}"

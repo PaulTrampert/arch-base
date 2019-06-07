@@ -6,33 +6,44 @@ Configures the base settings for an ArchLinux-based server. This includes sortin
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Requires python to already be installed on the host.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `packages_require_reboot` | `['linux']` | A list of packages that, if updated, require a system reboot |
+| `machine_users` | `[]` | A list of user objects to ensure existence of. Each user has a `name`, `password`, and list of `groups`. If password is empty or undefined, the user's login shell will be set to `/bin/nologin` |
+| `machine_groups` | `[]` | A list of group names to ensure existence of. |
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yml
+- hosts: all
+  become: yes
+  vars:
+    machine_users:
+        - name: paul
+          password: asdfasdf
+          groups: ['wheel', 'users']
+    machine_groups:
+        - users
+        - others
+  roles:
+    - arch-base
+```
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT
