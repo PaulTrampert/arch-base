@@ -1,2 +1,6 @@
 ---
+packages_require_reboot:
+- linux
+machine_groups: []
+machine_users: []
 # defaults file for arch-base
