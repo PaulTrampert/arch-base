@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/arch"
+  config.vm.box = "archlinux/archlinux"
 
   config.vm.provision "shell", run: "always", inline: "sudo rm -rf /usr/share/ansible/roles/arch-base || true && sudo mkdir -p /usr/share/ansible/roles && sudo cp -r /vagrant /usr/share/ansible/roles/arch-base"
 
