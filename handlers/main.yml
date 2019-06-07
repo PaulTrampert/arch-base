@@ -1,2 +1,3 @@
 ---
-# handlers file for arch-base
+- name: Reboot
+  reboot:

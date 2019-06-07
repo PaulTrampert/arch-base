@@ -22,6 +22,8 @@
   shell: "reflector --country 'United States' --latest 50 --protocol https --sort rate --save /etc/pacman.d/mirrorlist"
 
 - name: Ensure packages updated
+  register: updated_packages
+  notify: Check Reboot Required
   pacman:
     state: latest
     update_cache: yes
