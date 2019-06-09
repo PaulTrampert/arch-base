@@ -1,4 +1,4 @@
 ---
-packages_require_reboot: [ 'linux' ]
+packages_require_reboot: []
 machine_groups: []
 machine_users: []
